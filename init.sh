@@ -1,5 +1,19 @@
 #!/bin/bash
 
+echo "make dir /root/runtimes"
+mkdir /root/runtimes
+echo "make dir /root/sources"
+mkdir /root/sources
+
+echo "downloading tengine"
+wget -q http://tengine.taobao.org/download/tengine-1.5.2.tar.gz -O /root/sources/tengine-1.5.2.tar.gz
+echo "change directory to /root/sources"
+cd /root/sources/
+echo "decompress tengine-1.5.2.tar.gz"
+tar zxf tengine-1.5.2.tar.gz
+echo "change directory to /root"
+cd /root
+
 echo "downloading /root/open_in_stat.sh"
 wget -q https://raw.github.com/developerworks/scripts/master/open_in_stat.sh -O /root/open_in_stat.sh
 
