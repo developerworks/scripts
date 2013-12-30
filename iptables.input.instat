@@ -1,0 +1,3 @@
+#!/bin/bash
+
+iptables -nv --line-number -L IN_STAT|sort -nr -k 2
