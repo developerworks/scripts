@@ -1,7 +1,9 @@
 #!/bin/bash
 iptables -N IN_STAT
 iptables -F IN_STAT
-iptables -A IN_STAT -p tcp --dport 3306 -d 192.168.184.137 -m comment --comment "Mysql database incoming traffic"
+iptables -A IN_STAT -p tcp --dport 9000 -d 192.168.184.137 -m comment --comment "Mysql database incoming traffic"
+iptables -A IN_STAT -p tcp --dport 9000 -d 127.0.0.1 -m comment --comment "Php backend incoming traffic"
+
 iptables -A IN_STAT -i eth0 -p tcp --dport 22 -m comment --comment "Ssh incoming traffic"
 iptables -A IN_STAT -i eth0 -p tcp --dport 80 -m comment --comment "Http request data accepted"
 iptables -A IN_STAT -m state --state NEW -m geoip ! --source-country CN
@@ -9,6 +11,8 @@ iptables -A IN_STAT -m state --state NEW -m geoip ! --source-country CN
 iptables -N OUT_STAT
 iptables -F OUT_STAT
 iptables -A OUT_STAT -p tcp --sport 3306 -s 192.168.184.137 -m comment --comment "Mysql database outgoing traffic"
+iptables -A OUT_STAT -p tcp --sport 3306 -s 127.0.0.1 -m comment --comment "Php backend outgoing traffic"
+
 iptables -A OUT_STAT -o eth0 -p tcp --sport 22 -m comment --comment "Ssh outgoing traffic"
 iptables -A OUT_STAT -o eth0 -p tcp --sport 80 -m comment --comment "Http response data sent"
 
@@ -24,6 +28,7 @@ iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW -m recent --rch
 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp --dport 22 -j DROP
 iptables -A INPUT -s 23.239.4.63 -j ACCEPT
+iptables -A INPUT -s 106.186.25.76 -j ACCEPT
 iptables -A INPUT -s 60.144.220.155 -j ACCEPT
 iptables -A INPUT -s 61.64.61.59 -j ACCEPT
 iptables -A INPUT -s 61.38.186.253 -j ACCEPT
