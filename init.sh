@@ -15,6 +15,8 @@ wget -q https://raw.github.com/developerworks/scripts/master/watchiptables -O /r
 echo "downloading /boot/grub/menu.lst"
 wget -q https://raw.github.com/developerworks/scripts/master/menu.lst -O /boot/grub/menu.lst
 
+echo "downloading /etc/init/hvc0.conf"
+wget -q https://raw.github.com/developerworks/scripts/master/hvc0.conf -O /etc/init/hvc0.conf
 
 echo "change file mode: /root/open_in_stat.sh"
 chmod +x /root/open_in_stat.sh
@@ -22,8 +24,8 @@ chmod +x /root/open_in_stat.sh
 echo "change file mode: /root/close_in_stat.sh"
 chmod +x /root/close_in_stat.sh
 
-echo "change file mode: /root/close_in_stat.sh"
+echo "change file mode: /root/iptables.sh"
 chmod +x /root/iptables.sh
 
-echo "change file mode: /root/close_in_stat.sh"
+echo "change file mode: /root/watchiptables"
 chmod +x /root/watchiptables
