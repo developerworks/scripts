@@ -1,0 +1,33 @@
+#!/bin/bash
+IF=$1
+if [ -z "$IF" ]; then
+        IF=`ls -1 /sys/class/net/ | head -1`
+fi
+
+RXPREV=-1
+TXPREV=-1
+echo "Listening $IF..."
+while [ 1 == 1 ] ; do
+        RX=`cat /sys/class/net/${IF}/statistics/rx_bytes`
+        TX=`cat /sys/class/net/${IF}/statistics/tx_bytes`
+        TZ='Asia/Shanghai' TIME=`date +%H:%M:%S` DATE=`date +%Y-%m-%d`
+        if [ $RXPREV -ne -1 ] ; then
+                let BWRX=($RX-$RXPREV)/1024
+                let BWTX=($TX-$TXPREV)/1024
+                printf "[%s %s] Received: %6d KB/s " $DATE $TIME $BWRX
+                printf "Sent: %6d KB/s" $BWTX
+                if [ $BWRX -gt 10240 ]; then
+                        printf " *** WARNING: Inbound DDoS Attack! ***"
+                        /sbin/ifdown eth0
+                        sleep 600
+                        /sbin/ifup eth0
+                fi
+                if [ $BWTX -gt 100 ] ; then
+                        printf " NOTICE: Outbound DDoS Attack!"
+                fi
+                printf "\n"
+        fi
+        RXPREV=$RX
+        TXPREV=$TX
+        sleep 1
+done
