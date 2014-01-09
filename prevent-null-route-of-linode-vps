@@ -1,4 +1,6 @@
 #!/bin/bash
+# http://stackoverflow.com/questions/596590/how-can-i-get-the-current-network-interface-throughput-statistics-on-linux-unix
+
 IF=$1
 if [ -z "$IF" ]; then
         IF=`ls -1 /sys/class/net/ | head -1`
